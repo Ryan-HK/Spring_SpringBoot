@@ -2,7 +2,7 @@ package hello.core.beanfind;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
-import hello.core.discount.RateDisCountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
@@ -29,7 +29,7 @@ public class ApplicationContextExtendsFindTest {
     @DisplayName("부모 타입으로 조회 시, 자식이 둘 이상 있으면, 빈 이름을 지정한다..")
     void findBeanByParentTypeBeanName() {
         DiscountPolicy rateDiscountPolicy = ac.getBean("rateDiscountPolicy", DiscountPolicy.class);
-        assertThat(rateDiscountPolicy).isInstanceOf(RateDisCountPolicy.class);
+        assertThat(rateDiscountPolicy).isInstanceOf(RateDiscountPolicy.class);
     } // findBeanByParentTypeBeanName
 
     @Test
@@ -59,7 +59,7 @@ public class ApplicationContextExtendsFindTest {
     static class TestConfig{
         @Bean
         public DiscountPolicy rateDiscountPolicy(){
-            return new RateDisCountPolicy();
+            return new RateDiscountPolicy();
         }
 
         @Bean
