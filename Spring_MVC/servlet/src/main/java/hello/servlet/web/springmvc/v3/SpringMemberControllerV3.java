@@ -23,7 +23,6 @@ public class SpringMemberControllerV3 {
         return "new-form";
     }
 
-
     @PostMapping("/save")
     public String save(@RequestParam("username") String username, @RequestParam("age") int age, Model model) {
 
