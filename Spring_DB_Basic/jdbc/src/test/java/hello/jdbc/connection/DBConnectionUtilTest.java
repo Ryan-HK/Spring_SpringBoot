@@ -14,4 +14,5 @@ public class DBConnectionUtilTest {
         Connection connection = DBConnectionUtil.getConnection();
         Assertions.assertThat(connection).isNotNull();
     }
+
 }

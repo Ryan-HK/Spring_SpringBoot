@@ -5,6 +5,7 @@ import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.util.NoSuchElementException;
 
 /**
  * JDBC - DriverManager 사용
@@ -12,7 +13,7 @@ import java.sql.*;
 @Slf4j
 public class MemberRepositoryV0 {
 
-    private Member save(Member member) throws SQLException {
+    public Member save(Member member) throws SQLException {
         String sql = "insert into member(member_id, money) values (?, ?)";
 
         Connection con = null;
@@ -20,7 +21,7 @@ public class MemberRepositoryV0 {
 
         try {
             con = getConnection();
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            pstmt = con.prepareStatement(sql);
             pstmt.setString(1, member.getMemberId());
             pstmt.setInt(2, member.getMoney());
             pstmt.executeUpdate();
@@ -31,21 +32,16 @@ public class MemberRepositoryV0 {
         } finally {
             close(con, pstmt, null);
         }
-
-
     }
 
-    private void close(Connection con, Statement stmt, ResultSet resultSet) {
-
+    private void close(Connection con, Statement stmt, ResultSet rs) {
         if (rs != null) {
             try {
-                resultSet.close();
+                rs.close();
             } catch (SQLException e) {
                 log.info("error", e);
             }
         }
-
-
         if (stmt != null) {
             try {
                 stmt.close();   //SQLException
@@ -53,13 +49,42 @@ public class MemberRepositoryV0 {
                 log.info("error", e);
             }
         }
-
         if (con != null) {
             try {
                 con.close();
             } catch (SQLException e) {
                 log.info("error", e);
             }
+        }
+    }
+
+    public Member findById(String memberId) throws SQLException {
+        String sql = "select * from member Where member_id = ?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, memberId);
+
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Member member = new Member();
+                member.setMemberId(rs.getString("member_id"));
+                member.setMoney(rs.getInt("money"));
+                return member;
+            } else {
+                throw new NoSuchElementException("member not found memberId=" + memberId);
+            }
+
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(con, pstmt, rs);
         }
     }
 
