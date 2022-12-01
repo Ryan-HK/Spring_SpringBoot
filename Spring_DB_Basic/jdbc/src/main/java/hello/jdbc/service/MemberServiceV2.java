@@ -14,9 +14,8 @@ import java.sql.SQLException;
 /**
  * 트랜잭션 - 파라미터 연동, 풀을 고려한 종료
  */
-@Slf4j
 @RequiredArgsConstructor
-@Service
+@Slf4j
 public class MemberServiceV2 {
 
     private final MemberRepositoryV2 memberRepository;
