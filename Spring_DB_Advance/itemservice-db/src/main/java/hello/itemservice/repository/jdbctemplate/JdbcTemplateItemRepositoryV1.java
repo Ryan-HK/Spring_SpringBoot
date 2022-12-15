@@ -10,9 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,8 +92,24 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
         String sql = "SELECT id, item_name, price, quantity FROM item";
 
         //동적 쿼리
-
-
-        return template.query(sql, itemRowMapper());
+        if (StringUtils.hasText(itemName) || maxPrice != null) {
+            sql += " where";
+        }
+        boolean andFlag = false;
+        List<Object> param = new ArrayList<>();
+        if (StringUtils.hasText(itemName)) {
+            sql += " item_name like concat('%',?,'%')";
+            param.add(itemName);
+            andFlag = true;
+        }
+        if (maxPrice != null) {
+            if (andFlag) {
+                sql += " and";
+            }
+            sql += " price <= ?";
+            param.add(maxPrice);
+        }
+        log.info("sql={}", sql);
+        return template.query(sql, itemRowMapper(), param.toArray());
     }
 }
