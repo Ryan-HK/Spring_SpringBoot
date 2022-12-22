@@ -30,7 +30,7 @@
                 AND item_name like concat('%', #{itemName}, '%')
             </if>
             <if test="maxPrice != null">
-                AND price $lt;= #{maxPrice}
+                AND price &lt;= #{maxPrice}
             </if>
         </where>
     </select>

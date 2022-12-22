@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Profile;
 
 //@Import(MemoryConfig.class)
 //@Import(JdbcTemplateV1Config.class)
-@Import(JdbcTemplateV2Config.class)
+//@Import(JdbcTemplateV2Config.class)
+@Import(MyBatisConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
 
@@ -24,5 +25,4 @@ public class ItemServiceApplication {
 	public TestDataInit testDataInit(ItemRepository itemRepository) {
 		return new TestDataInit(itemRepository);
 	}
-
 }
