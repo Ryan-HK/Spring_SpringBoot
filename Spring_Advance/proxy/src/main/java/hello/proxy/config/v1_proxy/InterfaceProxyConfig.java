@@ -31,5 +31,4 @@ public class InterfaceProxyConfig {
         OrderRepositoryV1Impl repositoryImpl = new OrderRepositoryV1Impl();
         return new OrderRepositoryInterfaceProxy(repositoryImpl, logTrace);
     }
-
 }
