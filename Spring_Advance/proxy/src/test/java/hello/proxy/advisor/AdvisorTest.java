@@ -51,7 +51,7 @@ public class AdvisorTest {
 
     @Test
     @DisplayName("Spring이 제공하는 포인트컷")
-    void advisorTest2() {
+    void advisorTest4() {
         ServiceInterface target = new ServiceImpl();
         ProxyFactory proxyFactory = new ProxyFactory(target);
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(new MyPointcut(), new TimeAdvice());
