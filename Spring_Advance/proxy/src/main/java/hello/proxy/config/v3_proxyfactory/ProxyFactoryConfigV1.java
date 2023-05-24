@@ -18,7 +18,7 @@ public class ProxyFactoryConfigV1 {
 
     @Bean
     public OrderControllerV1 orderControllerV1(LogTrace logTrace) {
-        OrderControllerV1Impl orderController = new OrderControllerV1Impl(orderServiceV1());
+        OrderControllerV1Impl orderController = new OrderControllerV1Impl(orderServiceV1(logTrace));
         ProxyFactory factory = new ProxyFactory(orderController);
         factory.addAdvisor(getAdvisor(logTrace));
 
