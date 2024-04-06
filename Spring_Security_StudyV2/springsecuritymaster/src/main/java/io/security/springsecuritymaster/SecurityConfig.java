@@ -29,23 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(form -> form
-//                        .loginPage("/loginPage")
-                        .loginProcessingUrl("/loginProc")
-                        .defaultSuccessUrl("/", false)
-                        .failureUrl("/failed")
-                        .usernameParameter("userId")
-                        .passwordParameter("passwd")
-//                        .successHandler((request, response, authentication) -> {
-//                            log.info(">>>>> authentication : {}", authentication);
-//                            response.sendRedirect("/home");
-//                        })
-//                        .failureHandler((request, response, exception) -> {
-//                            log.info(">>>>> exception : {}", exception.getMessage());
-//                            response.sendRedirect("/login");
-//                        })
-                .permitAll()
-                );
+                .httpBasic(basic -> basic.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
 
         return http.build();
     }
