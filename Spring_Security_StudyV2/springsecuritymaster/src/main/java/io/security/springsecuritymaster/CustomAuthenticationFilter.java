@@ -17,7 +17,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.io.IOException;
 
 public class CustomAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     public CustomAuthenticationFilter(HttpSecurity http) {
         super(new AntPathRequestMatcher("/api/login", "GET"));
         setSecurityContextRepository(getSecurityContextRepository(http));
